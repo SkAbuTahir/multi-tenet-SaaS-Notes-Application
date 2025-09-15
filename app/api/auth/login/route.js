@@ -4,8 +4,8 @@ export const revalidate = 0;
 
 export async function POST(request) {
   // Prevent execution during build time
-  if (process.env.NODE_ENV === 'production' && !process.env.VERCEL) {
-    return Response.json({ error: 'Build time' }, { status: 503 });
+  if (!process.env.DATABASE_URL || !process.env.JWT_SECRET) {
+    return Response.json({ error: 'Configuration missing' }, { status: 503 });
   }
 
   try {
