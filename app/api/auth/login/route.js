@@ -3,6 +3,11 @@ export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
 export async function POST(request) {
+  // Prevent execution during build time
+  if (process.env.NODE_ENV === 'production' && !process.env.VERCEL) {
+    return Response.json({ error: 'Build time' }, { status: 503 });
+  }
+
   try {
     const { email, password } = await request.json();
 

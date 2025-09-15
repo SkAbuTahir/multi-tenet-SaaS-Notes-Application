@@ -3,6 +3,11 @@ export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
 export async function GET(request) {
+  // Prevent execution during build time
+  if (process.env.NODE_ENV === 'production' && !process.env.VERCEL) {
+    return Response.json({ error: 'Build time' }, { status: 503 });
+  }
+
   const { getAuthUser } = await import('@/lib/auth');
   const { getPrisma } = await import('@/lib/db');
   
@@ -32,6 +37,11 @@ export async function GET(request) {
 }
 
 export async function POST(request) {
+  // Prevent execution during build time
+  if (process.env.NODE_ENV === 'production' && !process.env.VERCEL) {
+    return Response.json({ error: 'Build time' }, { status: 503 });
+  }
+
   const { getAuthUser } = await import('@/lib/auth');
   const { getPrisma } = await import('@/lib/db');
   
