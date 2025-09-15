@@ -2,10 +2,11 @@ export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
-import { prisma } from '@/lib/db';
-import { getAuthUser } from '@/lib/auth';
-
 export async function POST(request, { params }) {
+  const { getPrisma } = await import('@/lib/db');
+  const { getAuthUser } = await import('@/lib/auth');
+  
+  const prisma = getPrisma();
   const user = getAuthUser(request);
   if (!user) {
     return Response.json({ error: 'Unauthorized' }, { status: 401 });
