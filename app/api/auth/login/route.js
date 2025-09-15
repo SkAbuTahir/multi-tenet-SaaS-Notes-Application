@@ -3,9 +3,13 @@ export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
 export async function POST(request) {
-  // Prevent execution during build time
+  // Check environment variables
   if (!process.env.DATABASE_URL || !process.env.JWT_SECRET) {
-    return Response.json({ error: 'Configuration missing' }, { status: 503 });
+    return Response.json({ 
+      error: 'Configuration missing',
+      hasDB: !!process.env.DATABASE_URL,
+      hasJWT: !!process.env.JWT_SECRET
+    }, { status: 503 });
   }
 
   try {
