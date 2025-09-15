@@ -4,7 +4,9 @@ export const revalidate = 0;
 
 export async function GET(request) {
   const { getAuthUser } = await import('@/lib/auth');
-  const { prisma } = await import('@/lib/db');
+  const { getPrisma } = await import('@/lib/db');
+  
+  const prisma = getPrisma();
   
   const user = getAuthUser(request);
   if (!user) {
@@ -31,7 +33,9 @@ export async function GET(request) {
 
 export async function POST(request) {
   const { getAuthUser } = await import('@/lib/auth');
-  const { prisma } = await import('@/lib/db');
+  const { getPrisma } = await import('@/lib/db');
+  
+  const prisma = getPrisma();
   
   const user = getAuthUser(request);
   if (!user) {

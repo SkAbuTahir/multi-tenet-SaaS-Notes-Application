@@ -11,12 +11,10 @@ export async function POST(request) {
     }
 
     // Dynamic imports to avoid build-time issues
-    const { prisma } = await import('@/lib/db');
+    const { getPrisma } = await import('@/lib/db');
     const { verifyPassword, signToken } = await import('@/lib/auth');
 
-    if (!prisma) {
-      return Response.json({ error: 'Database unavailable' }, { status: 503 });
-    }
+    const prisma = getPrisma();
 
     const user = await prisma.user.findUnique({
       where: { email },
