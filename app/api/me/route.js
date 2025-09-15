@@ -1,5 +1,8 @@
 import { getAuthUser } from '@/lib/auth';
 
+export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
+
 export async function GET(request) {
   const user = getAuthUser(request);
   

@@ -1,6 +1,9 @@
 import { prisma } from '@/lib/db';
 import { getAuthUser } from '@/lib/auth';
 
+export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
+
 export async function POST(request, { params }) {
   const user = getAuthUser(request);
   if (!user) {
