@@ -34,6 +34,7 @@ export async function POST(request) {
 
     return Response.json({ token });
   } catch (error) {
+    console.error('Login error:', error);
     return Response.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
