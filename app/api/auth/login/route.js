@@ -2,15 +2,20 @@ export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
-import { prisma } from '@/lib/db';
-import { verifyPassword, signToken } from '@/lib/auth';
-
 export async function POST(request) {
   try {
     const { email, password } = await request.json();
 
     if (!email || !password) {
       return Response.json({ error: 'Email and password required' }, { status: 400 });
+    }
+
+    // Dynamic imports to avoid build-time issues
+    const { prisma } = await import('@/lib/db');
+    const { verifyPassword, signToken } = await import('@/lib/auth');
+
+    if (!prisma) {
+      return Response.json({ error: 'Database unavailable' }, { status: 503 });
     }
 
     const user = await prisma.user.findUnique({

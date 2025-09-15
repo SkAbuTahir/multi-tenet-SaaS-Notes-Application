@@ -2,10 +2,10 @@ export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
-import { prisma } from '@/lib/db';
-import { getAuthUser } from '@/lib/auth';
-
 export async function GET(request) {
+  const { getAuthUser } = await import('@/lib/auth');
+  const { prisma } = await import('@/lib/db');
+  
   const user = getAuthUser(request);
   if (!user) {
     return Response.json({ error: 'Unauthorized' }, { status: 401 });
@@ -30,6 +30,9 @@ export async function GET(request) {
 }
 
 export async function POST(request) {
+  const { getAuthUser } = await import('@/lib/auth');
+  const { prisma } = await import('@/lib/db');
+  
   const user = getAuthUser(request);
   if (!user) {
     return Response.json({ error: 'Unauthorized' }, { status: 401 });
